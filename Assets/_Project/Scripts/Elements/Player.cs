@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
 
     private bool _isGrounded;
 
+    public LayerMask lookLayers;
+
     public void RestartPlayer()
     {
         transform.position = Vector3.zero;
@@ -31,6 +33,23 @@ public class Player : MonoBehaviour
         _isGrounded = CheckIfGrounded();
 
         Jump();
+
+        LookAtMouse();
+    }
+
+    private void LookAtMouse()
+    {
+        if (Physics.Raycast(Camera.main.transform.position,
+            Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()).direction,
+            out var hit,
+            50,
+            lookLayers))
+        {
+            var lookPos = hit.point;
+            lookPos.y = transform.position.y;
+            transform.LookAt(lookPos);
+        }
+
     }
 
     private bool CheckIfGrounded()
