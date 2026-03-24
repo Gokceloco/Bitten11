@@ -28,5 +28,10 @@ public class LevelManager : MonoBehaviour
     private void CreateNewLevel()
     {
         _curLevel = Instantiate(levelPrefabs[levelNo-1]);
-    }    
+    }   
+    
+    public void MakeChildToCurrentLevel(Transform t)
+    {
+        t.SetParent(_curLevel.transform);
+    }
 }

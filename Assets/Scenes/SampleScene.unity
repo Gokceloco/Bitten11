@@ -224,6 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   bulletPrefab: {fileID: 1208598523113041130, guid: 694c2df97398dca4592a472e0e13339e, type: 3}
+  levelManager: {fileID: 2029486122}
   shootPosition: {fileID: 644617785}
   attackRate: 0.1
 --- !u!1 &330585543

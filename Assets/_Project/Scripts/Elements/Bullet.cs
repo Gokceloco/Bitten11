@@ -11,6 +11,11 @@ public class Bullet : MonoBehaviour
         _startPos = transform.position;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        print("carpisma gerceklesti");
+    }
+
     private void Update()
     {
         transform.position += transform.forward * Time.deltaTime * speed;
