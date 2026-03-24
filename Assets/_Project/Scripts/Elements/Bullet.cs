@@ -13,7 +13,11 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("carpisma gerceklesti");
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<Enemy>().GetHit();
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
