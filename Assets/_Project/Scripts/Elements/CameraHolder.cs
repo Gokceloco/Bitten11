@@ -6,6 +6,8 @@ public class CameraHolder : MonoBehaviour
 
     private void Update()
     {
-        transform.position = followObject.position;
+        var pos = followObject.position;
+        pos.y = 0;
+        transform.position = pos;
     }
 }

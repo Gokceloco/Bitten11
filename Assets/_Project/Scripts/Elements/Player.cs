@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public GameDirector gameDirector;
     public float walkSpeed;
     public float runSpeed;
 
@@ -16,11 +17,21 @@ public class Player : MonoBehaviour
 
     public LayerMask lookLayers;
 
+    public bool isDead;
+
+    public HealthBar healthBar;
+
+    public int startHealth;
+    private int _currentHealth;
+
     public void RestartPlayer()
     {
         transform.position = Vector3.zero;
+        gameObject.SetActive(true);
+        _currentHealth = startHealth;
+        healthBar.SetFillBar(1);
     }
-
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -28,6 +39,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (gameDirector.gameState != GameState.GamePlay)
+        {
+            return;
+        }
+
         MovePlayer();
 
         _isGrounded = CheckIfGrounded();
@@ -35,6 +51,20 @@ public class Player : MonoBehaviour
         Jump();
 
         LookAtMouse();
+
+        if (transform.position.y < -10)
+        {
+            gameDirector.LevelFailed();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Potion"))
+        {
+            other.gameObject.SetActive(false);
+            gameDirector.LevelCompleted();
+        }
     }
 
     private void LookAtMouse()
@@ -108,5 +138,17 @@ public class Player : MonoBehaviour
         yVelocity.z = 0;
 
         _rb.linearVelocity = direction.normalized * speed + yVelocity;        
+    }
+
+    public void GetHit()
+    {
+        _currentHealth--;
+        healthBar.SetFillBar((float)_currentHealth / startHealth);
+        if (_currentHealth <= 0)
+        {
+            isDead = true;
+            gameObject.SetActive(false);
+            gameDirector.LevelFailed();
+        }
     }
 }

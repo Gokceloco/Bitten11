@@ -6,6 +6,8 @@ public class GameDirector : MonoBehaviour
     public LevelManager levelManager;
     public Player player;
 
+    public GameState gameState;
+
     private void Start()
     {
         RestartLevel();
@@ -28,12 +30,14 @@ public class GameDirector : MonoBehaviour
     }
     public void RestartLevel()
     {
+        gameState = GameState.GamePlay;
         levelManager.RestartLevelManager();
         player.RestartPlayer();
     }
     public void LevelCompleted()
     {
         PlayerPrefs.SetInt("LastLevelReached", levelManager.levelNo + 1);
+        Invoke(nameof(LoadNextLevel), 1);
         //uIManager.ShowVictoryUI();
     }
 
@@ -51,6 +55,14 @@ public class GameDirector : MonoBehaviour
 
     public void LevelFailed()
     {
+        Invoke(nameof(RestartLevel), 1f);
+        gameState = GameState.Menu;
         //uIManager.ShowFailUI();
     }
+}
+
+public enum GameState
+{
+    Menu,
+    GamePlay,
 }
