@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab2f98aca0295f4f816dcae5f2bbe33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level
+  levelTime: 45
 --- !u!1 &6960848273018656456
 GameObject:
   m_ObjectHideFlags: 0

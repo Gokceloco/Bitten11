@@ -3,27 +3,29 @@ using UnityEngine.InputSystem;
 
 public class GameDirector : MonoBehaviour
 {
+    public UIManager uiManager;
     public LevelManager levelManager;
     public Player player;
+    public TimeManager timeManager;
 
     public GameState gameState;
 
     private void Start()
     {
-        RestartLevel();
+        uiManager.ShowMainMenu();
     }
 
     private void Update()
     {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        if (Keyboard.current.jKey.wasPressedThisFrame)
         {
             RestartLevel();
         }
-        if (Keyboard.current.qKey.wasPressedThisFrame)
+        if (Keyboard.current.kKey.wasPressedThisFrame)
         {
             LoadPreviousLevel();
         }
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (Keyboard.current.lKey.wasPressedThisFrame)
         {
             LoadNextLevel();
         }
@@ -32,12 +34,15 @@ public class GameDirector : MonoBehaviour
     {
         gameState = GameState.GamePlay;
         levelManager.RestartLevelManager();
+        timeManager.RestartTimeManager(levelManager.GetCurrentLevel().levelTime);
         player.RestartPlayer();
     }
     public void LevelCompleted()
     {
         PlayerPrefs.SetInt("LastLevelReached", levelManager.levelNo + 1);
-        Invoke(nameof(LoadNextLevel), 1);
+        //Invoke(nameof(LoadNextLevel), 1);
+        uiManager.ShowVictoryUI();
+        gameState = GameState.Menu;
         //uIManager.ShowVictoryUI();
     }
 
@@ -55,7 +60,8 @@ public class GameDirector : MonoBehaviour
 
     public void LevelFailed()
     {
-        Invoke(nameof(RestartLevel), 1f);
+        //Invoke(nameof(RestartLevel), 1f);
+        uiManager.ShowFailUI();
         gameState = GameState.Menu;
         //uIManager.ShowFailUI();
     }

@@ -84,6 +84,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        GetComponentInParent<Level>().EnemyKilled(this);
         if (_attackCoroutine != null)
         {
             StopCoroutine(_attackCoroutine);

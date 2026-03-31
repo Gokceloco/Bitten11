@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     public int startHealth;
     private int _currentHealth;
 
+    public MoveControls moveControls;
+
     public void RestartPlayer()
     {
         transform.position = Vector3.zero;
@@ -41,16 +43,25 @@ public class Player : MonoBehaviour
     {
         if (gameDirector.gameState != GameState.GamePlay)
         {
+            _rb.linearVelocity = Vector3.zero;
             return;
         }
 
-        MovePlayer();
+        if (moveControls == MoveControls.WASD)
+        {
+            MovePlayer();
 
-        _isGrounded = CheckIfGrounded();
+            _isGrounded = CheckIfGrounded();
 
-        Jump();
+            Jump();
 
-        LookAtMouse();
+            LookAtMouse();
+        }
+        else
+        {
+
+        }
+
 
         if (transform.position.y < -10)
         {
@@ -151,4 +162,10 @@ public class Player : MonoBehaviour
             gameDirector.LevelFailed();
         }
     }
+}
+
+public enum MoveControls
+{
+    WASD,
+    Touch,
 }

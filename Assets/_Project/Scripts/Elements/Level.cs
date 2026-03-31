@@ -1,16 +1,22 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public float levelTime;
+
+    private List<Enemy> _enemyList = new List<Enemy>();
+    public void StartLevel()
     {
-        
+        _enemyList = new List<Enemy>(GetComponentsInChildren<Enemy>());
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EnemyKilled(Enemy enemy)
     {
-        
+        _enemyList.Remove(enemy);
+        if (_enemyList.Count == 0)
+        {
+            GetComponentInChildren<Door>().UnlockDoor();
+        }
     }
 }
