@@ -1,0 +1,32 @@
+using DG.Tweening;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TimerUI : MonoBehaviour
+{
+    [SerializeField] TextMeshProUGUI remainingTimeTMP;
+    [SerializeField] Image fillBar;
+
+    private CanvasGroup _canvasGroup;
+    private void Awake()
+    {
+        _canvasGroup = GetComponent<CanvasGroup>();
+    }
+    public void Show(float delay)
+    {
+        gameObject.SetActive(true);
+        _canvasGroup.DOFade(1, .2f).SetDelay(delay);
+    }
+
+    public void Hide()
+    {
+        _canvasGroup.DOFade(0, .2f).OnComplete(() => gameObject.SetActive(false));
+    }
+
+    public void SetRemainingTime(float levelTime, float remainingTime)
+    {
+        remainingTimeTMP.text = Mathf.Round(remainingTime).ToString();
+        fillBar.fillAmount = (float)remainingTime / levelTime;
+    }
+}

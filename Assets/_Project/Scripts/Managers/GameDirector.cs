@@ -36,6 +36,7 @@ public class GameDirector : MonoBehaviour
         levelManager.RestartLevelManager();
         timeManager.RestartTimeManager(levelManager.GetCurrentLevel().levelTime);
         player.RestartPlayer();
+        uiManager.SetLevelTMP(levelManager.levelNo);
     }
     public void LevelCompleted()
     {

@@ -3,11 +3,13 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     private float _remainingTime;
+    private float _levelTime;
 
     public GameDirector gameDirector;
 
     public void RestartTimeManager(float levelTime)
     {
+        _levelTime = levelTime;
         _remainingTime = levelTime;
     }
 
@@ -23,5 +25,7 @@ public class TimeManager : MonoBehaviour
         {
             gameDirector.LevelFailed();
         }
+
+        gameDirector.uiManager.UpdateTimerUI(_levelTime, _remainingTime);
     }
 }

@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
         gameObject.SetActive(true);
         _currentHealth = startHealth;
         healthBar.SetFillBar(1);
+
+        _rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
     
     private void Awake()
