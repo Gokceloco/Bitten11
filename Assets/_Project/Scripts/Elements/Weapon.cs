@@ -35,5 +35,6 @@ public class Weapon : MonoBehaviour
         newBullet.transform.position = shootPosition.position;
         newBullet.transform.LookAt(newBullet.transform.position 
             + shootPosition.forward);
+        gameDirector.audioManager.PlayShootAS();
     }
 }

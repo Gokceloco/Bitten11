@@ -7,6 +7,7 @@ public class GameDirector : MonoBehaviour
     public LevelManager levelManager;
     public Player player;
     public TimeManager timeManager;
+    public AudioManager audioManager;
 
     public GameState gameState;
 

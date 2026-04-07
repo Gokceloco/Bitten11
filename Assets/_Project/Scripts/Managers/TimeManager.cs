@@ -18,7 +18,6 @@ public class TimeManager : MonoBehaviour
         if (gameDirector.gameState == GameState.GamePlay)
         {
             _remainingTime -= Time.deltaTime;
-            print(_remainingTime);
         }
         
         if (_remainingTime < 0 && gameDirector.gameState == GameState.GamePlay) 
