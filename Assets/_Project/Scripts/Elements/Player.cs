@@ -26,6 +26,11 @@ public class Player : MonoBehaviour
 
     public MoveControls moveControls;
 
+    private Animator _animator;
+    private string _curAnimationKey;
+
+    private Vector3 _direction;
+
     public void RestartPlayer()
     {
         transform.position = Vector3.zero;
@@ -34,8 +39,18 @@ public class Player : MonoBehaviour
         healthBar.SetFillBar(1);
 
         _rb.constraints = RigidbodyConstraints.FreezeRotation;
+        _animator = GetComponentInChildren<Animator>();
     }
-    
+
+    void SwitchAnimationState(string key, bool forceAnimation = false)
+    {
+        if (_curAnimationKey != key || forceAnimation)
+        {
+            _animator.CrossFade(key, .05f);
+            _curAnimationKey = key;
+        }
+    }
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -91,6 +106,11 @@ public class Player : MonoBehaviour
             var lookPos = hit.point;
             lookPos.y = transform.position.y;
             transform.LookAt(lookPos);
+
+
+            var signedAngle = Vector3.SignedAngle(transform.forward, _direction, Vector3.up);
+
+            _animator.SetFloat("RunBlend", signedAngle);
         }
 
     }
@@ -106,6 +126,8 @@ public class Player : MonoBehaviour
             return false;
         }
     }
+
+    
 
     private void Jump()
     {
@@ -126,23 +148,23 @@ public class Player : MonoBehaviour
             speed = walkSpeed;
         }
 
-        var direction = Vector3.zero;
+        _direction = Vector3.zero;
 
         if (Keyboard.current.wKey.isPressed)
         {
-            direction += Vector3.forward;
+            _direction += Vector3.forward;
         }
         if (Keyboard.current.aKey.isPressed)
         {
-            direction += Vector3.left;
+            _direction += Vector3.left;
         }
         if (Keyboard.current.sKey.isPressed)
         {
-            direction += Vector3.back;
+            _direction += Vector3.back;
         }
         if (Keyboard.current.dKey.isPressed)
         {
-            direction += Vector3.right;
+            _direction += Vector3.right;
         }
 
         var yVelocity = _rb.linearVelocity;
@@ -150,7 +172,16 @@ public class Player : MonoBehaviour
         yVelocity.x = 0;
         yVelocity.z = 0;
 
-        _rb.linearVelocity = direction.normalized * speed + yVelocity;        
+        _rb.linearVelocity = _direction.normalized * speed + yVelocity;
+
+        if (_rb.linearVelocity.magnitude > 0)
+        {
+            SwitchAnimationState("Run");
+        }
+        else
+        {
+            SwitchAnimationState("Idle");
+        }
     }
 
     public void GetHit()

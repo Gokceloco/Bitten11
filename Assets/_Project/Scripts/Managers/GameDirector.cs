@@ -13,6 +13,7 @@ public class GameDirector : MonoBehaviour
 
     private void Start()
     {
+        levelManager.levelNo = PlayerPrefs.GetInt("LastLevelReached");
         uiManager.ShowMainMenu();
     }
 

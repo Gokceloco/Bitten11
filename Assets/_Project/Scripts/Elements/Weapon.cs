@@ -5,6 +5,8 @@ public class Weapon : MonoBehaviour
 {
     public GameDirector gameDirector;
 
+    public FXManager fxManager;
+
     public Bullet bulletPrefab;
 
     public LevelManager levelManager;
@@ -29,6 +31,7 @@ public class Weapon : MonoBehaviour
     void Shoot()
     {
         var newBullet = Instantiate(bulletPrefab);
+        newBullet.StartBullet(this);
 
         levelManager.MakeChildToCurrentLevel(newBullet.transform);
 

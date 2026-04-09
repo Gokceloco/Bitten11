@@ -6,8 +6,11 @@ public class Bullet : MonoBehaviour
 
     public float speed;
 
-    private void Start()
+    private Weapon _weapon;
+
+    public void StartBullet(Weapon weapon)
     {
+        _weapon = weapon;
         _startPos = transform.position;
     }
 
@@ -15,6 +18,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            _weapon.fxManager.PlayImpactPS(transform.position, transform.forward, Color.red);
             other.GetComponent<Enemy>().GetHit();
             Destroy(gameObject);
         }

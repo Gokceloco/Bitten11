@@ -1,8 +1,12 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Door : MonoBehaviour
 {
+    public Transform leftLeaf;
+    public Transform rightLeaf;
+
     private bool _isDoorLocked = true;
     private bool _isPlayerInRange;
     private void Update()
@@ -28,7 +32,8 @@ public class Door : MonoBehaviour
     }
     void OpenDoor()
     {
-        gameObject.SetActive(false);
+        leftLeaf.DOLocalMoveZ(1.5f, .2f);
+        rightLeaf.DOLocalMoveZ(-3.1f, .2f);
     }
     public void UnlockDoor()
     {

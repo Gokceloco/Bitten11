@@ -74,7 +74,8 @@ public class Enemy : MonoBehaviour
     {
         if (_curAnimationKey != key || forceAnimation)
         {
-            _animator.CrossFade(key, .1f);
+            //_animator.Play(key);
+            _animator.CrossFade(key, .05f);
             _curAnimationKey = key;
         }
     }
